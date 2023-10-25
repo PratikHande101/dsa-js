@@ -113,24 +113,67 @@ class BST {
         };
         this.root = removeNode(this.root, data);
     }
+
+    findMinHeight(node = this.root) {
+        if (node === null) {
+            return -1;
+        }
+       
+        let left = this.findMinHeight(node.left);
+        let right = this.findMinHeight(node.right);
+        //console.log("Node => " + node.data + " [" + (left+1) + "," + (right+1) + "]");
+
+        if (left < right) {
+            return left+1;
+        } else {
+            return right+1;
+        }
+    }
+
+    findMaxHeight(node = this.root) {
+        if (node === null) {
+            return -1;
+        }
+
+        let left = this.findMaxHeight(node.left);
+        let right  = this.findMaxHeight(node.right);
+
+        if (left > right) {
+            return (left + 1);
+        } else {
+            return (right + 1);
+        }
+    }
 }
 
 const bst = new BST();
 
-bst.add(5);
-bst.add(6);
-bst.add(4);
-bst.add(7);
-bst.add(1);
+// bst.add(5);
+// bst.add(6);
+// bst.add(4);
+// bst.add(7);
+// bst.add(1);
 
-console.log(bst.findMin());
-console.log(bst.findMax());
-console.log(bst.isPresent(9));
+// console.log(bst.findMin());
+// console.log(bst.findMax());
+// console.log(bst.isPresent(9));
 
-console.log("Removing a value");
-bst.remove(1);
+// console.log("Removing a value");
+// bst.remove(1);
 
-console.log(bst.findMin());
-console.log(bst.findMax());
-console.log(bst.isPresent(9));
+// console.log(bst.findMin());
+// console.log(bst.findMax());
+// console.log(bst.isPresent(9));
 //console.log(bst.root);
+
+bst.add(9);
+bst.add(4);
+bst.add(17);
+bst.add(3);
+bst.add(6);
+bst.add(22);
+bst.add(5);
+bst.add(7);
+bst.add(20);
+console.log(bst.findMinHeight());
+console.log(bst.findMaxHeight());
