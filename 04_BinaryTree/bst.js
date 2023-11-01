@@ -187,6 +187,50 @@ class BST {
             return result;
         }
     }
+
+    postOrder() {
+        if (this.root === null) {
+            return null;
+        } else {
+            let result = [];
+            function postOrderTraversal(node) {
+                if (node.left) {
+                    postOrderTraversal(node.left);
+                }
+                if (node.right) {
+                    postOrderTraversal(node.right);
+                }
+                result.push(node.data);
+            };
+            postOrderTraversal(this.root);
+            return result;
+        }
+    }
+
+    levelOrder() {
+        if (this.root === null) {
+            return null;
+        } else {
+            let result = [];
+            let queue = [];
+            queue.push(this.root);
+
+            while (queue.length > 0) {
+                let node = queue.shift();
+                result.push(node.data);
+
+                if (node.left) {
+                    queue.push(node.left);
+                }
+
+                if (node.right) {
+                    queue.push(node.right);
+                }
+            }
+
+            return result;
+        }
+    }
 }
 
 const bst = new BST();
@@ -224,3 +268,5 @@ console.log("Max Height => " + bst.findMaxHeight());
 console.log("Balanced => " + bst.isBalanced());
 console.log("inOrder => " + bst.inOrder());
 console.log("preOrder => " + bst.preOrder());
+console.log("postOrder => " + bst.postOrder());
+console.log("levelOrder => " + bst.levelOrder());
