@@ -149,6 +149,44 @@ class BST {
     isBalanced() {
         return (this.findMinHeight() >= (this.findMaxHeight() - 1));
     }
+
+    inOrder() {
+        if (this.root === null) {
+            return null;
+        } else {
+            let result = [];
+            function inOrderTraversal(node) {
+                if (node.left) {
+                    inOrderTraversal(node.left);
+                }
+                result.push(node.data);
+                if (node.right) {
+                    inOrderTraversal(node.right);
+                }
+            };
+            inOrderTraversal(this.root);
+            return result;
+        }
+    }
+
+    preOrder() {
+        if (this.root === null) {
+            return null;
+        } else {
+            let result = [];
+            function preOrderTraversal(node) {
+                result.push(node.data);
+                if (node.left) {
+                    preOrderTraversal(node.left);
+                }
+                if (node.right) {
+                    preOrderTraversal(node.right);
+                }
+            };
+            preOrderTraversal(this.root);
+            return result;
+        }
+    }
 }
 
 const bst = new BST();
@@ -181,6 +219,8 @@ bst.add(22);
 bst.add(5);
 bst.add(7);
 bst.add(20);
-console.log(bst.findMinHeight());
-console.log(bst.findMaxHeight());
-console.log(bst.isBalanced());
+console.log("Min Height => " + bst.findMinHeight());
+console.log("Max Height => " + bst.findMaxHeight());
+console.log("Balanced => " + bst.isBalanced());
+console.log("inOrder => " + bst.inOrder());
+console.log("preOrder => " + bst.preOrder());
