@@ -83,7 +83,6 @@ let mySet = function() {
         firstSet.forEach(function(e) {
             if (!otherSet.has(e)) {
                 flag = false;
-                return flag;
             }
         })
 
