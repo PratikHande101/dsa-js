@@ -12,69 +12,66 @@ class BST {
     constructor() {
         this.root = null;
     }
-    
-    add(data) {
-        const node = this.root;
 
-        if (node == null) {
+    add(data) {
+        let node = this.root;
+
+        if (node === null) {
             this.root = new Node(data);
             return;
-        } else {
-            const searchTree = function(node) {
-                if (data < node.data) {
-                    if (node.left === null) {
-                        node.left = new Node(data);
-                        return;
-                    } else if (node.left !== null) {
-                        return searchTree(node.left);
-                    }
-                } else if (data > node.data) {
-                    if (node.right === null) {
-                        node.right = new Node(data);
-                        return;
-                    } else if (node.right !== null) {
-                        return searchTree(node.right);
-                    }
-                } else {
-                    return null;
-                }
-            };
-            return searchTree(node);
         }
+
+        const searchTree = function(node) {
+            if (data < node.data) {
+                if (node.left === null) {
+                    node.left = new Node(data);
+                    return;
+                } else if (node.left !== null) {
+                    return searchTree(node.left);
+                }
+            } else if (data > node.data) {
+                if (node.right === null) {
+                    node.right = new Node(data);
+                    return;
+                } else if (node.right !== null) {
+                    return searchTree(node.right);
+                }
+            } else {
+                return null;
+            }
+        };
+
+        return searchTree(node);
     }
 
     findMin() {
-        let currrent = this.root;
-
-        while(currrent.left !== null) {
-            currrent = currrent.left;
+        let current  = this.root;
+        while(current.left !== null) {
+            current = current.left;
         }
 
-        return currrent.data;
-    } 
+        return current.data;
+    }
 
     findMax() {
-        let currrent = this.root;
-
-        while(currrent.right !== null) {
-            currrent = currrent.right;
+        let current = this.root;
+        while(current.right !== null) {
+            current = current.right;
         }
 
-        return currrent.data;
+        return current.data;
     }
 
     isPresent(data) {
-        let currrent = this.root;
+        let current = this.root;
 
-        while(currrent) {
-            if (data === currrent.data) {
+        while (current.left === null && current.right === null) {
+            if (data < current.data) {
+                current = current.left;
+            } else if (data > current.data) {
+                current.current.right;
+            } else if (data === current.data) {
                 return true;
-            }
-            
-            if (data < currrent.data) {
-                currrent = currrent.left;
-            } else {
-                currrent = currrent.right;
             }
         }
 
@@ -83,34 +80,39 @@ class BST {
 
     remove(data) {
         const removeNode = function(node, data) {
-            if (node === null) {
-                return null;
-            } else if (data < node.data) {
+            if (data < node.data) {
                 node.left = removeNode(node.left, data);
                 return node;
             } else if (data > node.data) {
                 node.right = removeNode(node.right, data);
                 return node;
-            } else if (data === node.data) {
+            } else {
                 if (node.left === null && node.right === null) {
                     return null;
                 }
+
                 if (node.left === null) {
                     return node.right;
                 }
+
                 if (node.right === null) {
                     return node.left;
                 }
 
+                // now, handling condition where there are two child notes
+
                 let tempNode = node.right;
-                while(tempNode.left !== null) {
+                
+                while (tempNode.left !== null) {
                     tempNode = tempNode.left;
-                } 
+                }
+
                 node.data = tempNode.data;
                 node.right = removeNode(node.right, tempNode.data);
-                return node;
+                return node; 
             }
-        };
+        }
+
         this.root = removeNode(this.root, data);
     }
 
@@ -118,15 +120,14 @@ class BST {
         if (node === null) {
             return -1;
         }
-       
+
         let left = this.findMinHeight(node.left);
         let right = this.findMinHeight(node.right);
-        //console.log("Node => " + node.data + " [" + (left+1) + "," + (right+1) + "]");
 
         if (left < right) {
-            return left+1;
+            return left + 1;
         } else {
-            return right+1;
+            return right + 1;
         }
     }
 
@@ -135,14 +136,18 @@ class BST {
             return -1;
         }
 
-        let left = this.findMaxHeight(node.left);
-        let right  = this.findMaxHeight(node.right);
+        let left = this.findMinHeight(node.left);
+        let right = this.findMinHeight(node.right);
 
         if (left > right) {
-            return (left + 1);
+            return left + 1;
         } else {
-            return (right + 1);
+            return right + 1;
         }
+    }
+
+    isBalanced() {
+        return (this.findMinHeight() >= (this.findMaxHeight() - 1));
     }
 }
 
@@ -164,16 +169,18 @@ const bst = new BST();
 // console.log(bst.findMin());
 // console.log(bst.findMax());
 // console.log(bst.isPresent(9));
-//console.log(bst.root);
+// console.log(bst.root);
 
 bst.add(9);
 bst.add(4);
 bst.add(17);
 bst.add(3);
 bst.add(6);
+bst.add(10);
 bst.add(22);
 bst.add(5);
 bst.add(7);
 bst.add(20);
 console.log(bst.findMinHeight());
 console.log(bst.findMaxHeight());
+console.log(bst.isBalanced());
